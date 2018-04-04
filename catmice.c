@@ -11,33 +11,6 @@ sem_t numberOfCats,numberOfMice;
 pthread_t thread1,thread2,thread3,thread4,thread5;
 pthread_mutex_t mutex,catmutex,micemutex;
 
-
-void * cat()
-{
-	pthread_mutex_lock(&mutex);
-	NumCats=NumCats+1;
-	num=num+1;
-	printf("CAT %d HAS STARTED ITS EXECUTION \n",NumCats);
-	printf("CAT %d IS NOW SLEEPING \n",NumCats);
-	sleep(5);
-	
-	printf("CAT %d WOKE UP \n",NumCats);
-	while(NumMice>0)
-	{
-	sem_destroy(&numberOfMice);
-	printf("MOUSE %d IS DEAD %d \n",NumMice,numberOfMice);
-	arr[NumMice]=-1;
-	NumMice=NumMice-1;
-	}
-	printf("CAT %d IS NOW SLEEPING AGAIN\n",NumCats);
-	sleep(5);
-	
-	printf("CAT %d WOKE UP AND STARTS EATING\n",NumCats);
-	NumBowls[num]=num;
-	printf("CAT %d HAS FINISHED ITS EXECUTION \n",NumCats);
-	pthread_mutex_unlock(&mutex);
-}
-
 void * mice()
 {
 		NumMice=NumMice+1;
@@ -57,16 +30,40 @@ void * mice()
 	}
 	printf("MOUSE %d WOKE UP AND STARTS EATING \n",NumMice);
 	sleep(5);
-    printf("MOUSE %d WOKE UP AND STARTS EATING \n",NumMice);
+
 	printf("MOUSE %d HAS EXECUTED\n",NumMice);
 	
 	pthread_mutex_unlock(&micemutex);
 }
+
+void * cat()
+{
+	pthread_mutex_lock(&mutex);
+	NumCats=NumCats+1;
+	num=num+1;
+	printf("CAT %d HAS STARTED ITS EXECUTION \n",NumCats);
+	printf("CAT %d IS NOW SLEEPING \n",NumCats);
+	sleep(5);
+	
+	printf("CAT %d WOKE UP \n",NumCats);
+	while(NumMice>0)
+	{
+	sem_destroy(&numberOfMice);
+	printf("MOUSE %d IS DEAD %d \n",NumMice);
+	arr[NumMice]=-1;
+	NumMice=NumMice-1;
+	}
+	printf("CAT %d IS NOW SLEEPING AGAIN\n",NumCats);
+	sleep(5);
+	
+	printf("CAT %d WOKE UP AND STARTS EATING\n",NumCats);
+	NumBowls[num]=num;
+	printf("CAT %d HAS FINISHED ITS EXECUTION \n",NumCats);
+	pthread_mutex_unlock(&mutex);
+}
+
 int main()
 {   int num=5,x;
-      printf("ENTER YOUR CHOICE \n");
-      
-      scanf("%d",choice);
 	sem_init(&numberOfCats,0,5);
 	sem_init(&numberOfMice,0,5);
 	pthread_create(&thread1,NULL,cat,NULL);
@@ -82,5 +79,3 @@ int main()
 	pthread_join(thread4,NULL);
 	pthread_join(thread5,NULL);
 	}
-
-
