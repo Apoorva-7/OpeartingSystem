@@ -64,6 +64,9 @@ void * mice()
 }
 int main()
 {   int num=5,x;
+      printf("ENTER YOUR CHOICE \n");
+      
+      scanf("%d",choice);
 	sem_init(&numberOfCats,0,5);
 	sem_init(&numberOfMice,0,5);
 	pthread_create(&thread1,NULL,cat,NULL);
