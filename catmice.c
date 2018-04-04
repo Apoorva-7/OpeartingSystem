@@ -42,7 +42,7 @@ void * mice()
 {
 		NumMice=NumMice+1;
 		arr[NumMice]=NumMice;
-		int i=NumMice;
+		int rad=NumMice;
 	
 	sem_wait(&numberOfMice);
 	if(NumMice==1){
@@ -51,7 +51,7 @@ void * mice()
 	printf("MOUSE %d IS EATING \n",NumMice);
 	printf("MOUSE %d IS SLEEPING \n",NumMice);
 	sleep(5);
-	if(i!=arr[i])
+	if(rad!=arr[rad])
 	{
 		return;
 	}
